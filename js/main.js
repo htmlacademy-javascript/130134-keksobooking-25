@@ -1,22 +1,22 @@
 function getRandomInt(min, max) {
   if (min < 0 || max < 0) {
-    console.log('Диапазон значений может быть только положительный, включая ноль.');
+    throw new Error('Числа должны быть только положительными');
   }
   if (min < max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   } else {
-    console.log('Минимальное значение должно быть меньше максимального');
+    return Math.floor(Math.random() * (min - max + 1) + max);
   }
 }
 
 function getRandomFractional(min, max, round) {
   if (min < 0 || max < 0) {
-    console.log('Диапазон значений может быть только положительный, включая ноль.');
+    throw new Error('Числа должны быть только положительными');
   }
   if (min < max) {
     return (Math.random() * (max - min) + min).toFixed(round);
   } else {
-    console.log('Минимальное значение должно быть меньше максимального');
+    return (Math.random() * (min - max) + max).toFixed(round);
   }
 }
 
