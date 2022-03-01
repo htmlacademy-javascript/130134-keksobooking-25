@@ -33,11 +33,11 @@ function getRandomPositiveFloat (a, b, digits = 1) {
 const getRandomArrayElement = (elements) => elements[getRandomPositiveInteger(0, elements.length - 1)];
 
 function mixElements(elements) {
-  elements.forEach((element, index, elements) => {
+  elements.forEach((element, index, items) => {
     const randomIndex = getRandomPositiveInteger(0, elements.length - 1);
-    let current = elements[index];
-    elements[index] = elements[randomIndex];
-    elements[randomIndex] = current;
+    const current = items[index];
+    items[index] = items[randomIndex];
+    items[randomIndex] = current;
   });
   return elements;
 }
@@ -82,5 +82,5 @@ const createAd = () => ({
 
 // console.log(createAd());
 
-const ads = Array.from({length: ADS_COUNT}, createAd);
+// const ads = Array.from({length: ADS_COUNT}, createAd);
 // console.log(ads);
