@@ -82,5 +82,5 @@ const createAd = () => ({
 
 // console.log(createAd());
 
-// const ads = Array.from({length: ADS_COUNT}, createAd);
+const adsList = Array.from({length: ADS_COUNT}, createAd);
 // console.log(ads);
