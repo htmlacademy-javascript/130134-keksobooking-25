@@ -57,30 +57,34 @@ function getPhotos (elements) {
 }
 
 
-const createAd = () => ({
-  author: {
-    avatar: `img/avatars/user${getAvatarNumber()}.png`,
-  },
-  offer: {
-    title: getRandomArrayElement(TITLES),
-    address: `${getRandomPositiveFloat(LAT_START, LAT_END, 5)}, ${getRandomPositiveFloat(LNG_START, LNG_END, 5)}`,
-    price: getRandomPositiveInteger(PRICE_MIN, PRICE_MAX),
-    type: getRandomArrayElement(ROOMSTYPE),
-    rooms: getRandomPositiveInteger(ROOMS_MIN, ROOMS_MAX),
-    guests: getRandomPositiveInteger(ROOMS_MIN, ROOMS_MAX),
-    checkin: getRandomArrayElement(CHECKINOUT),
-    checkout: getRandomArrayElement(CHECKINOUT),
-    features: getRandomStringFromArray(FEATURES),
-    description: getRandomArrayElement(DESCRIPTIONS),
-    photos: getPhotos(PHOTOS),
-  },
-  location: {
+const createAd = () => {
+  const coords = {
     lat: getRandomPositiveFloat(LAT_START, LAT_END, 5),
     lng: getRandomPositiveFloat(LNG_START, LNG_END, 5),
-  }
-});
+  };
+
+  return {
+    author: {
+      avatar: `img/avatars/user${getAvatarNumber()}.png`,
+    },
+    offer: {
+      title: getRandomArrayElement(TITLES),
+      address: `${coords.lat}, ${coords.lng}`,
+      price: getRandomPositiveInteger(PRICE_MIN, PRICE_MAX),
+      type: getRandomArrayElement(ROOMSTYPE),
+      rooms: getRandomPositiveInteger(ROOMS_MIN, ROOMS_MAX),
+      guests: getRandomPositiveInteger(ROOMS_MIN, ROOMS_MAX),
+      checkin: getRandomArrayElement(CHECKINOUT),
+      checkout: getRandomArrayElement(CHECKINOUT),
+      features: getRandomStringFromArray(FEATURES),
+      description: getRandomArrayElement(DESCRIPTIONS),
+      photos: getPhotos(PHOTOS),
+    },
+    location: coords,
+  };
+};
 
 // console.log(createAd());
 
 const adsList = Array.from({length: ADS_COUNT}, createAd);
-// console.log(ads);
+// console.log(adsList);
