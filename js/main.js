@@ -1,3 +1,3 @@
-import {adList} from './data.js';
+import {getAdList} from './data.js';
 
-console.log(adList());
+console.log(getAdList());

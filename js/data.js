@@ -1,5 +1,7 @@
-import {getRandomPositiveFloat, getAvatarNumber, getRandomArrayElement, getRandomPositiveInteger, getRandomStringFromArray, getPhotos} from './util.js';
+import {getRandomPositiveFloat, getRandomArrayElement, getRandomPositiveInteger, getRandomStringFromArray} from './util.js';
 
+const START_RANGE = 1;
+const END_RANGE = 10;
 const PRICE_MIN = 100;
 const PRICE_MAX = 10000;
 const ROOMS_MIN = 2;
@@ -16,6 +18,16 @@ const LNG_START = 139.70000;
 const LNG_END = 139.80000;
 const ADS_COUNT = 10;
 
+function getAvatarNumber () {
+  const number = getRandomPositiveInteger(START_RANGE, END_RANGE);
+  return number < 10 ? `0${number}` : number;
+}
+
+function getPhotos (elements) {
+  const elementItem = () => getRandomArrayElement(elements);
+  const photos = Array.from({length: getRandomPositiveInteger (3, 10)}, elementItem);
+  return photos;
+}
 
 const createAd = () => {
   const coords = {
@@ -45,6 +57,6 @@ const createAd = () => {
 };
 
 
-const adList = () => Array.from({length: ADS_COUNT}, createAd);
+const getAdList = () => Array.from({length: ADS_COUNT}, createAd);
 
-export {adList};
+export {getAdList};
