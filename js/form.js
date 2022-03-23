@@ -107,6 +107,17 @@ function getRoomsCountErrorMessage() {
 pristine.addValidator(roomsCountAd, validateCapacity, getRoomsCountErrorMessage);
 pristine.addValidator(capacityAd, validateCapacity, getCapacityErrorMessage);
 
+const timeIn = formAd.querySelector('#timein');
+const timeOut = formAd.querySelector('#timeout');
+function setTime() {
+  if (this.id === 'timein' ) {
+    timeOut.value = timeIn.options[timeIn.selectedIndex].value;
+  } else {
+    timeIn.value = timeOut.options[timeOut.selectedIndex].value;
+  }
+}
+timeIn.addEventListener('change', setTime);
+timeOut.addEventListener('change', setTime);
 
 formAd.addEventListener('submit', (evt) => {
   evt.preventDefault();
