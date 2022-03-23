@@ -8,10 +8,10 @@ const cardList = generateCards(adList);
 mapContainer.append(cardList.querySelector('.popup'));
 
 
-deactivateForms();
+// deactivateForms();
 
-document.addEventListener('keypress', (evt) => {
-  if(evt.key === 'Enter') {
-    activateForms();
-  }
-});
+// document.addEventListener('keypress', (evt) => {
+//   if(evt.key === 'Enter') {
+//     activateForms();
+//   }
+// }, { once: true });
