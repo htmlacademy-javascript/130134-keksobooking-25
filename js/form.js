@@ -97,11 +97,11 @@ function getCapacityErrorMessage() {
   if (roomsCountAd.value < 100) {
     return `Максимум ${roomOption[roomsCountAd.value].length} гост${roomOption[roomsCountAd.value].length > 1 ? 'я' : 'ь'}`;
   }
-  return `Не для гостей`;
+  return 'Не для гостей';
 }
 function getRoomsCountErrorMessage() {
   if (roomsCountAd.value < 100) {
-    return `Недостаточно комнат для гостей`;
+    return 'Недостаточно комнат для гостей';
   }
 }
 pristine.addValidator(roomsCountAd, validateCapacity, getRoomsCountErrorMessage);
