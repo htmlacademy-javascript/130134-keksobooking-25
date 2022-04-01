@@ -57,7 +57,7 @@ pristine.addValidator(addressAd, validateAddress, 'Установите точк
 
 
 const priceAd = formAd.querySelector('#price');
-const minPrice = {
+const MinPrice = {
   'bungalow': 0,
   'flat': 1000,
   'hotel': 3000,
@@ -66,15 +66,15 @@ const minPrice = {
 };
 function validatePrice(value) {
   const type = formAd.querySelector('#type');
-  return value.length && parseInt(value, 10) >= minPrice[type.value];
+  return value.length && parseInt(value, 10) >= MinPrice[type.value];
 }
 function getPriceErrorMessage() {
   const type = formAd.querySelector('#type');
-  return `Минимальная цена ${minPrice[type.value]}`;
+  return `Минимальная цена ${MinPrice[type.value]}`;
 }
 pristine.addValidator(priceAd, validatePrice, getPriceErrorMessage);
 function onHousingTypeChange() {
-  priceAd.placeholder = minPrice[this.value];
+  priceAd.placeholder = MinPrice[this.value];
   pristine.validate(priceAd);
 }
 formAd.querySelector('#type').addEventListener('change', onHousingTypeChange);
@@ -82,7 +82,7 @@ formAd.querySelector('#type').addEventListener('change', onHousingTypeChange);
 
 const roomsCountAd = formAd.querySelector('#room_number');
 const capacityAd = formAd.querySelector('#capacity');
-const roomOption = {
+const RoomOption = {
   '1': ['1'],
   '2': ['1', '2'],
   '3': ['1', '2', '3'],
@@ -90,12 +90,12 @@ const roomOption = {
 };
 
 function validateCapacity() {
-  return roomOption[roomsCountAd.value].includes(capacityAd.value);
+  return RoomOption[roomsCountAd.value].includes(capacityAd.value);
 }
 
 function getCapacityErrorMessage() {
   if (roomsCountAd.value < 100) {
-    return `Максимум ${roomOption[roomsCountAd.value].length} гост${roomOption[roomsCountAd.value].length > 1 ? 'я' : 'ь'}`;
+    return `Максимум ${RoomOption[roomsCountAd.value].length} гост${RoomOption[roomsCountAd.value].length > 1 ? 'я' : 'ь'}`;
   }
   return 'Не для гостей';
 }
