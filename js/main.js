@@ -1,6 +1,7 @@
 import {getAdList} from './data.js';
 import {generateCards} from './generate-cards.js';
 import {deactivateForms, activateForms} from './form.js';
+import { createPriceSlider } from './price-slider.js';
 
 const mapContainer = document.querySelector('#map-canvas');
 const adList = getAdList();
@@ -92,3 +93,6 @@ const createMarker = (point, i) => {
 adList.forEach((adItem, i) => {
   createMarker(adItem, i);
 });
+
+
+createPriceSlider();
