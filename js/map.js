@@ -30,6 +30,7 @@ const createMainMarker = ({lat, lng}, layer) => {
     {
       draggable: true,
       icon: mainIcon,
+      zIndexOffset: 900,
     },
   );
 
