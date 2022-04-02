@@ -1,17 +1,14 @@
 import {getAdList} from './data.js';
-import {generateCards} from './generate-cards.js';
 import {deactivateForms, activateForms} from './form.js';
+import { createPriceSlider } from './price-slider.js';
+import { mapInit } from './map.js';
 
-const mapContainer = document.querySelector('#map-canvas');
+
 const adList = getAdList();
-const cardList = generateCards(adList);
-mapContainer.append(cardList.querySelector('.popup'));
 
+deactivateForms();
 
-// deactivateForms();
+const {setMarkers} = mapInit(activateForms);
+setMarkers(adList);
 
-// document.addEventListener('keypress', (evt) => {
-//   if(evt.key === 'Enter') {
-//     activateForms();
-//   }
-// }, { once: true });
+createPriceSlider();
