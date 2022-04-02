@@ -1,6 +1,5 @@
 const priceSlider = document.querySelector('.ad-form__slider');
 const priceInput = document.querySelector('#price');
-const typeInput = document.querySelector('#type');
 
 function createPriceSlider () {
   noUiSlider.create(priceSlider, {
@@ -11,18 +10,20 @@ function createPriceSlider () {
     start: parseInt(priceInput.placeholder, 10),
     step: 100,
     connect: 'lower',
+    format: {
+      to: function (value) {
+        return value.toFixed(0);
+      },
+      from: function (value) {
+        return parseFloat(value);
+      },
+    },
   });
 
   priceSlider.noUiSlider.on('update', () => {
     priceInput.value = priceSlider.noUiSlider.get();
   });
 }
-
-typeInput.addEventListener('change', () => {
-  priceSlider.noUiSlider.updateOptions({
-    start: this.value,
-  });
-});
 
 
 export {createPriceSlider};
