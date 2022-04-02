@@ -20,7 +20,7 @@ function createPriceSlider () {
 
 typeInput.addEventListener('change', () => {
   priceSlider.noUiSlider.updateOptions({
-    start: parseInt(priceInput.placeholder, 10),
+    start: this.value,
   });
 });
 
