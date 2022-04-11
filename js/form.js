@@ -156,9 +156,10 @@ const setUserFormSubmit = (onSuccess, onError) => {
   });
 };
 
-const formReset = (evt) => {
-  evt.preventDefault();
-  evt.target.closest('.ad-form').reset();
+const formReset = () => {
+  // evt.preventDefault();
+  // evt.target.closest('.ad-form').reset();
+  formAd.reset();
   pristine.reset();
   resetPriceSlider();
   resetMap();
