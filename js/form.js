@@ -1,3 +1,8 @@
+import {sendData} from './api.js';
+import {resetPriceSlider} from './price-slider.js';
+import {resetMap} from './map.js';
+
+
 const FILTER_DISABLE_CLASS = 'map__filters--disabled';
 const FORM_DISABLE_CLASS = 'ad-form--disabled';
 const filterElement = document.querySelector('.map__filters');
@@ -119,10 +124,47 @@ function setTime() {
 timeIn.addEventListener('change', setTime);
 timeOut.addEventListener('change', setTime);
 
-formAd.addEventListener('submit', (evt) => {
+const submitButton = formAd.querySelector('.ad-form__submit');
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Отправка...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+const setUserFormSubmit = (onSuccess, onError) => {
+  formAd.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess(formAd);
+          unblockSubmitButton();
+        },
+        () => {
+          onError();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target)
+      );
+    }
+  });
+};
+
+const formReset = (evt) => {
   evt.preventDefault();
-  pristine.validate();
-});
+  evt.target.closest('.ad-form').reset();
+  pristine.reset();
+  resetPriceSlider();
+  resetMap();
+};
 
+const resetBtn = formAd.querySelector('.ad-form__reset');
+resetBtn.addEventListener('click', formReset);
 
-export {deactivateForms, activateForms};
+export {deactivateForms, activateForms, setUserFormSubmit, formReset};
