@@ -19,14 +19,17 @@ const generateCard = (adItem) => {
   cardElement.querySelector('.popup__text--capacity').textContent = `${rooms} комнаты для ${guests} гостей`;
   cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${checkin}, выезд до ${checkout}`;
 
-  const featureItems = features.split(', ');
-  const featureList = cardElement.querySelectorAll('.popup__feature');
-  featureList.forEach((featureListItem) => {
-    const isAvailable = featureItems.some((featureItem) => featureListItem.classList.contains(`popup__feature--${featureItem}`));
-    if (!isAvailable) {
-      featureListItem.remove();
-    }
-  });
+
+  if (features) {
+    const featureItems = features.slice();
+    const featureList = cardElement.querySelectorAll('.popup__feature');
+    featureList.forEach((featureListItem) => {
+      const isAvailable = featureItems.some((featureItem) => featureListItem.classList.contains(`popup__feature--${featureItem}`));
+      if (!isAvailable) {
+        featureListItem.remove();
+      }
+    });
+  }
 
   if (description) {
     cardElement.querySelector('.popup__description').textContent = description;
@@ -34,15 +37,17 @@ const generateCard = (adItem) => {
     cardElement.querySelector('.popup__description').classList.add('hidden');
   }
 
+  if (photos) {
+    const photoListElement = cardElement.querySelector('.popup__photos');
+    const photoItem = photoListElement.querySelector('.popup__photo');
+    const photosList = photos.map((photo) => {
+      const photoElement = photoItem.cloneNode(true);
+      photoElement.src = photo;
+      return photoElement;
+    });
+    photoItem.replaceWith(...photosList);
+  }
 
-  const photoListElement = cardElement.querySelector('.popup__photos');
-  const photoItem = photoListElement.querySelector('.popup__photo');
-  const photosList = photos.map((photo) => {
-    const photoElement = photoItem.cloneNode(true);
-    photoElement.src = photo;
-    return photoElement;
-  });
-  photoItem.replaceWith(...photosList);
 
   cardElement.querySelector('.popup__avatar').src = adItem.author.avatar;
 
