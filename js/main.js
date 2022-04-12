@@ -1,14 +1,15 @@
-import {getAdList} from './data.js';
-import {deactivateForms, activateForms} from './form.js';
+import {getAdList} from './api.js';
+import {deactivateForms, activateForms, setUserFormSubmit} from './form.js';
 import { createPriceSlider } from './price-slider.js';
 import { mapInit } from './map.js';
+import {getDataError, sendDataError, onSuccess} from './messages.js';
 
-
-const adList = getAdList();
 
 deactivateForms();
 
 const {setMarkers} = mapInit(activateForms);
-setMarkers(adList);
+getAdList(setMarkers, getDataError);
 
 createPriceSlider();
+
+setUserFormSubmit(onSuccess, sendDataError);

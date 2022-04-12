@@ -20,9 +20,9 @@ const adIcon = L.icon({
 
 const addressAd = document.querySelector('#address');
 
-
+let mainMarker;
 const createMainMarker = ({lat, lng}, layer) => {
-  const mainMarker = L.marker(
+  mainMarker = L.marker(
     {
       lat,
       lng,
@@ -43,15 +43,14 @@ const createMainMarker = ({lat, lng}, layer) => {
   });
 };
 
-
+const map = L.map(mapContainer);
 function mapInit (load) {
-  const map = L.map(mapContainer)
-    .on('load', () => {
-      load();
-    }).setView({
-      lat: 35.68025,
-      lng: 139.76923,
-    }, 13);
+  map.on('load', () => {
+    load();
+  }).setView({
+    lat: 35.68025,
+    lng: 139.76923,
+  }, 13);
 
   L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -90,4 +89,13 @@ function mapInit (load) {
   return {setMarkers};
 }
 
-export {mapInit};
+const resetMap = () => {
+  map.setView({
+    lat: 35.68025,
+    lng: 139.76923,
+  }, 13);
+  mainMarker.setLatLng([35.68025, 139.76923]);
+  addressAd.value = '35.68025, 139.76923';
+};
+
+export {mapInit, resetMap};

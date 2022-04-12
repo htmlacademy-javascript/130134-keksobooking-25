@@ -1,3 +1,4 @@
+const DEFAULT_PRICE = 5000;
 const priceSlider = document.querySelector('.ad-form__slider');
 const priceInput = document.querySelector('#price');
 
@@ -7,7 +8,7 @@ function createPriceSlider () {
       min: 0,
       max: 100000,
     },
-    start: parseInt(priceInput.placeholder, 10),
+    start: DEFAULT_PRICE,
     step: 100,
     connect: 'lower',
     format: {
@@ -25,5 +26,9 @@ function createPriceSlider () {
   });
 }
 
+function resetPriceSlider () {
+  priceSlider.noUiSlider.set(DEFAULT_PRICE);
+}
 
-export {createPriceSlider};
+
+export {createPriceSlider, resetPriceSlider};
