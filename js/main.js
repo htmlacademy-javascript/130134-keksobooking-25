@@ -1,15 +1,30 @@
-import {getAdList} from './api.js';
-import {deactivateForms, activateForms, setUserFormSubmit} from './form.js';
-import { createPriceSlider } from './price-slider.js';
-import { mapInit } from './map.js';
-import {getDataError, sendDataError, onSuccess} from './messages.js';
+import {setUserFormSubmit, formReset} from './form.js';
+import {createPriceSlider, resetPriceSlider} from './price-slider.js';
+import {resetMap} from './map.js';
+import {sendDataError, sendDataSuccess} from './notices.js';
 
-
-deactivateForms();
-
-const {setMarkers} = mapInit(activateForms);
-getAdList(setMarkers, getDataError);
 
 createPriceSlider();
 
-setUserFormSubmit(onSuccess, sendDataError);
+const resetBtn = document.querySelector('.ad-form__reset');
+resetBtn.addEventListener('click', (evt) => {
+  // убрал setTimeout и добавил preventDefault установка координат в поле формы заработала!
+  // т.е. похоже что сброс срабатывал дважды и очищал поле с координатами
+  evt.preventDefault();
+  formReset();
+  resetPriceSlider();
+  resetMap();
+});
+
+
+setUserFormSubmit(() => {
+  sendDataSuccess();
+  resetPriceSlider();
+  setTimeout(() => {
+    resetMap();
+  }, 200); // без задержки не работает установка координат в поле формы
+},
+() => {
+  sendDataError();
+}
+);

@@ -1,12 +1,12 @@
 import {sendData} from './api.js';
-import {resetPriceSlider} from './price-slider.js';
-import {resetMap} from './map.js';
 
 
 const FILTER_DISABLE_CLASS = 'map__filters--disabled';
 const FORM_DISABLE_CLASS = 'ad-form--disabled';
 const filterElement = document.querySelector('.map__filters');
 const formAd = document.querySelector('.ad-form');
+const formFiltersEl = document.querySelector('.map__filters');
+
 
 const deactivateForms = () => {
   filterElement.classList.add(FILTER_DISABLE_CLASS);
@@ -22,20 +22,21 @@ const deactivateForms = () => {
   });
 };
 
-const activateForms = () => {
+const activateFilterForm = () => {
   filterElement.classList.remove(FILTER_DISABLE_CLASS);
   const formFilters = filterElement.children;
   Array.from(formFilters).forEach((formItem) => {
     formItem.removeAttribute('disabled');
   });
+};
 
+const activateUserForm = () => {
   formAd.classList.remove(FORM_DISABLE_CLASS);
   const formAdItems = formAd.children;
   Array.from(formAdItems).forEach((formItem) => {
     formItem.removeAttribute('disabled');
   });
 };
-
 
 const pristine = new Pristine(formAd, {
   classTo: 'ad-form__element',
@@ -135,37 +136,33 @@ const unblockSubmitButton = () => {
   submitButton.textContent = 'Опубликовать';
 };
 
+const formReset = () => {
+  formAd.reset();
+  formFiltersEl.reset();
+  pristine.reset();
+  console.log('form reset');
+};
+
 const setUserFormSubmit = (onSuccess, onError) => {
   formAd.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
       blockSubmitButton();
-      sendData(
-        () => {
-          onSuccess(formAd);
-          unblockSubmitButton();
-        },
-        () => {
+      sendData(new FormData(evt.target))
+        .then(() => {
+          onSuccess();
+          formReset();
+        })
+        .catch(() => {
           onError();
+        })
+        .finally(() => {
           unblockSubmitButton();
-        },
-        new FormData(evt.target)
-      );
+        });
     }
   });
 };
 
-const formReset = () => {
-  // evt.preventDefault();
-  // evt.target.closest('.ad-form').reset();
-  formAd.reset();
-  pristine.reset();
-  resetPriceSlider();
-  resetMap();
-};
 
-const resetBtn = formAd.querySelector('.ad-form__reset');
-resetBtn.addEventListener('click', formReset);
-
-export {deactivateForms, activateForms, setUserFormSubmit, formReset};
+export {deactivateForms, activateFilterForm, activateUserForm, setUserFormSubmit, formReset};

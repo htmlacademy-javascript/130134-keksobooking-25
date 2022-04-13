@@ -1,5 +1,3 @@
-import {formReset} from './form.js';
-
 const mapElement = document.querySelector('.map');
 
 const getDataError = (message) => {
@@ -28,13 +26,13 @@ const getDataError = (message) => {
 
 const sendErrorTemplate = document.querySelector('#error').content.querySelector('.error');
 const sendErrorElement = sendErrorTemplate.cloneNode(true);
-const popupErrorClose = (evt) => {
+function popupErrorClose (evt) {
   if (evt.target.classList.contains('error') || evt.target.classList.contains('error__button')) {
     sendErrorElement.remove();
     sendErrorElement.removeEventListener('click', popupErrorClose);
     document.removeEventListener('keydown', popupErrorEscClose);
   }
-};
+}
 function popupErrorEscClose (evt) {
   if (evt.code === 'Escape') {
     sendErrorElement.remove();
@@ -52,13 +50,13 @@ const sendDataError = () => {
 
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const successElement = successTemplate.cloneNode(true);
-const popupSuccessClose = (evt) => {
+function popupSuccessClose (evt) {
   if (evt.target.classList.contains('success')) {
     successElement.remove();
     successElement.removeEventListener('click', popupSuccessClose);
     document.removeEventListener('keydown', popupSuccessEscClose);
   }
-};
+}
 function popupSuccessEscClose (evt) {
   if (evt.code === 'Escape') {
     successElement.remove();
@@ -67,11 +65,10 @@ function popupSuccessEscClose (evt) {
   }
 }
 
-const onSuccess = () => {
+const sendDataSuccess = () => {
   successElement.addEventListener('click', popupSuccessClose);
   document.addEventListener('keydown', popupSuccessEscClose);
-  formReset();
   document.body.appendChild(successElement);
 };
 
-export {getDataError, sendDataError, onSuccess};
+export {getDataError, sendDataError, sendDataSuccess};

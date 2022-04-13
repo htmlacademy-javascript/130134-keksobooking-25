@@ -1,6 +1,12 @@
 import {generateCard} from './generate-card.js';
+import {fetchData} from './api.js';
+import {filter} from './filter.js';
+import {getDataError} from './notices.js';
+import {activateFilterForm, activateUserForm, deactivateForms} from './form.js';
+
 
 const mapContainer = document.querySelector('#map-canvas');
+const addressAd = document.querySelector('#address');
 const MARKER_START_COORDS = {
   lat: 35.68025,
   lng: 139.76923,
@@ -18,11 +24,9 @@ const adIcon = L.icon({
   iconAnchor: [26, 52],
 });
 
-const addressAd = document.querySelector('#address');
 
-let mainMarker;
 const createMainMarker = ({lat, lng}, layer) => {
-  mainMarker = L.marker(
+  const mainMarker = L.marker(
     {
       lat,
       lng,
@@ -43,59 +47,80 @@ const createMainMarker = ({lat, lng}, layer) => {
   });
 };
 
+deactivateForms();
+
 const map = L.map(mapContainer);
-function mapInit (load) {
-  map.on('load', () => {
-    load();
-  }).setView({
-    lat: 35.68025,
-    lng: 139.76923,
-  }, 13);
+map.on('load', () => {
+  activateUserForm();
+}).setView({
+  lat: 35.68025,
+  lng: 139.76923,
+}, 13);
 
-  L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+).addTo(map);
+
+const markerGroup = L.layerGroup().addTo(map);
+const markerGroupMain = L.layerGroup().addTo(map);
+
+createMainMarker(MARKER_START_COORDS, markerGroupMain);
+
+const createMarker = (point) => {
+  const {lat, lng} = point.location;
+  const adMmarker = L.marker(
     {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      lat,
+      lng,
     },
-  ).addTo(map);
+    {
+      icon: adIcon,
+    },
+  );
 
-  const markerGroup = L.layerGroup().addTo(map);
-  const markerGroupMain = L.layerGroup().addTo(map);
+  adMmarker.addTo(markerGroup);
+  adMmarker.bindPopup(generateCard(point));
+};
 
-  createMainMarker(MARKER_START_COORDS, markerGroupMain);
 
-  const createMarker = (point) => {
-    const {lat, lng} = point.location;
-    const adMmarker = L.marker(
-      {
-        lat,
-        lng,
-      },
-      {
-        icon: adIcon,
-      },
-    );
+// const setMarkers = (data) => {
+//   markerGroup.clearLayers();
+//   // filter()
+//   data.forEach((dataItem) => {
+//     createMarker(dataItem);
+//   });
+// };
 
-    adMmarker.addTo(markerGroup);
-    adMmarker.bindPopup(generateCard(point));
-  };
+const setMarkers = () => {
+  markerGroup.clearLayers();
+  fetchData()
+    .then((data) => {
+      const filteredData = filter(data);
+      filteredData.forEach((dataItem) => {
+        createMarker(dataItem);
+      });
+    })
+    .then(activateFilterForm)
+    .catch(getDataError);
+};
 
-  const setMarkers = (data) => {
-    data.forEach((dataItem) => {
-      createMarker(dataItem);
-    });
-  };
-
-  return {setMarkers};
-}
+setMarkers();
 
 const resetMap = () => {
   map.setView({
     lat: 35.68025,
     lng: 139.76923,
   }, 13);
-  mainMarker.setLatLng([35.68025, 139.76923]);
-  addressAd.value = '35.68025, 139.76923';
+  markerGroup.clearLayers();
+  markerGroupMain.clearLayers();
+  createMainMarker(MARKER_START_COORDS, markerGroupMain);
+  setMarkers();
+  console.log('map reset');
 };
 
-export {mapInit, resetMap};
+
+export {setMarkers, resetMap};
