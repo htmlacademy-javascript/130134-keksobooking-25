@@ -28,4 +28,13 @@ function getRandomStringFromArray(elements) {
   return mixElements(elements).slice(0, getRandomPositiveInteger(1, elements.length - 1)).join(', ');
 }
 
-export {getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, getRandomStringFromArray};
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+
+export {debounce, getRandomPositiveInteger, getRandomPositiveFloat, getRandomArrayElement, getRandomStringFromArray};

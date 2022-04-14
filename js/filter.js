@@ -1,4 +1,5 @@
 import {setMarkers} from './map.js';
+import { debounce } from './util.js';
 
 const MARKERS_MAX_COUNT = 10;
 const filterElement = document.querySelector('.map__filters');
@@ -7,7 +8,7 @@ const priceFilter = filterElement.querySelector('#housing-price');
 const roomsFilter = filterElement.querySelector('#housing-rooms');
 const guestsFilter = filterElement.querySelector('#housing-guests');
 const featureFilterElements = filterElement.querySelectorAll('.map__checkbox');
-
+const RERENDER_DELAY = 1500;
 
 function checkHousing(item) {
   return housingFilter.value === 'any' ? true : (housingFilter.value === item.offer.type);
@@ -72,7 +73,9 @@ guestsFilter.addEventListener('change', () => {
 
 for (const featureItem of featureFilterElements) {
   featureItem.addEventListener('change', () => {
-    setMarkers();
+    // тут возвращается функция из debounce и её нужно вызвать,
+    // я добавил вызов, но пропуск кликов не работает
+    debounce(setMarkers, RERENDER_DELAY)();
   });
 }
 
