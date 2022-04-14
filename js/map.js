@@ -87,14 +87,6 @@ const createMarker = (point) => {
 };
 
 
-// const setMarkers = (data) => {
-//   markerGroup.clearLayers();
-//   // filter()
-//   data.forEach((dataItem) => {
-//     createMarker(dataItem);
-//   });
-// };
-
 const setMarkers = () => {
   markerGroup.clearLayers();
   fetchData()

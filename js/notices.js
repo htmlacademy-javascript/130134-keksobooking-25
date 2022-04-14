@@ -1,10 +1,5 @@
 const mapElement = document.querySelector('.map');
 
-// errElement вынес выше чтобы использовать в removeDataError
-// можно сделать одну функцию - dataErrorHandler, которая будет возвращать getDataError и removeDataError
-// а они в свою очередь будут показывать и скрывать форму
-// или проще, добавить класс, а в месте где нужно удалять, находить по классу и удалять
-
 const getDataError = (message) => {
   const errElement = document.createElement('div');
   const titleElement = document.createElement('h3');
@@ -27,11 +22,7 @@ const getDataError = (message) => {
   errElement.appendChild(titleElement);
   errElement.appendChild(infoElement);
   mapElement.appendChild(errElement);
-
 };
-
-// const removeDataError = () => errElement.remove();
-
 
 
 const sendErrorTemplate = document.querySelector('#error').content.querySelector('.error');
