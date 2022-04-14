@@ -1,3 +1,5 @@
+// import {removeDataError} from './notices.js';
+
 const fetchData = () => fetch('https://25.javascript.pages.academy/keksobooking/data')
   .then((response) => {
     if (response.ok) {

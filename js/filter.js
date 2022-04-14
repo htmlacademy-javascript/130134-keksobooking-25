@@ -6,6 +6,8 @@ const housingFilter = filterElement.querySelector('#housing-type');
 const priceFilter = filterElement.querySelector('#housing-price');
 const roomsFilter = filterElement.querySelector('#housing-rooms');
 const guestsFilter = filterElement.querySelector('#housing-guests');
+const featureFilterElements = filterElement.querySelectorAll('.map__checkbox');
+
 
 function checkHousing(item) {
   return housingFilter.value === 'any' ? true : (housingFilter.value === item.offer.type);
@@ -32,11 +34,25 @@ function checkGuests(item) {
   return guestsFilter.value === 'any' ? true : (guestsFilter.value === item.offer.guests.toString());
 }
 
+function featuresFilter(item) {
+  const featuresChecked = Array.from(featureFilterElements).filter((it) => it.checked).map((it) => it.value);
+  if (!featuresChecked.length) {
+    return true;
+  }
+  if (!item.offer.features) {
+    return false;
+  }
+  const selectedFeatures = featuresChecked.filter((it) => item.offer.features.includes(it));
+  return featuresChecked.length === selectedFeatures.length;
+}
+
 function filter(data) {
   const filterData = data.filter((item) => checkHousing(item)
   && checkPrice(item)
   && checkRooms(item)
-  && checkGuests(item)).slice(0, MARKERS_MAX_COUNT);
+  && checkGuests(item)
+  && featuresFilter(item)
+  ).slice(0, MARKERS_MAX_COUNT);
 
   return filterData;
 }
@@ -53,6 +69,12 @@ roomsFilter.addEventListener('change', () => {
 guestsFilter.addEventListener('change', () => {
   setMarkers();
 });
+
+for (const featureItem of featureFilterElements) {
+  featureItem.addEventListener('change', () => {
+    setMarkers();
+  });
+}
 
 
 export {filter};
