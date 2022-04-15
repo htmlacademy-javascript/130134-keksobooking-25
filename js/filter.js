@@ -8,7 +8,7 @@ const priceFilter = filterElement.querySelector('#housing-price');
 const roomsFilter = filterElement.querySelector('#housing-rooms');
 const guestsFilter = filterElement.querySelector('#housing-guests');
 const featureFilterElements = filterElement.querySelectorAll('.map__checkbox');
-const RERENDER_DELAY = 1500;
+const RERENDER_DELAY = 500;
 
 const checkHousing = (item) => housingFilter.value === 'any' ? true : (housingFilter.value === item.offer.type);
 

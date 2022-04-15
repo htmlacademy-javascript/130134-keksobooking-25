@@ -2,7 +2,7 @@ import {setUserFormSubmit, formReset} from './form.js';
 import {createPriceSlider, resetPriceSlider} from './price-slider.js';
 import {resetMap} from './map.js';
 import {sendDataError, sendDataSuccess} from './notices.js';
-import { setAvatarPreview } from './avatar.js';
+import {setAvatarPreview} from './avatar.js';
 
 
 createPriceSlider();

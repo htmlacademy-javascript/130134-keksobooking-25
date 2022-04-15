@@ -1,6 +1,6 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 const avatarInput = document.querySelector('#avatar');
-const avatarLabel = document.querySelector('.ad-form-header__drop-zone');
+// const avatarLabel = document.querySelector('.ad-form-header__drop-zone');
 const avatarPreview = document.querySelector('.ad-form-header__preview img');
 
 const setAvatarPreview = () => {
