@@ -140,7 +140,6 @@ const formReset = () => {
   formAd.reset();
   formFiltersEl.reset();
   pristine.reset();
-  console.log('form reset');
 };
 
 const setUserFormSubmit = (onSuccess, onError) => {
@@ -151,8 +150,8 @@ const setUserFormSubmit = (onSuccess, onError) => {
       blockSubmitButton();
       sendData(new FormData(evt.target))
         .then(() => {
-          onSuccess();
           formReset();
+          onSuccess();
         })
         .catch(() => {
           onError();

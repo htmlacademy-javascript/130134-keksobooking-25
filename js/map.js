@@ -111,7 +111,6 @@ const resetMap = () => {
   markerGroupMain.clearLayers();
   createMainMarker(MARKER_START_COORDS, markerGroupMain);
   setMarkers();
-  console.log('map reset');
 };
 
 

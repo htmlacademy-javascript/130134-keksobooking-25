@@ -18,9 +18,7 @@ resetBtn.addEventListener('click', (evt) => {
 setUserFormSubmit(() => {
   sendDataSuccess();
   resetPriceSlider();
-  setTimeout(() => {
-    resetMap();
-  }, 200); // без задержки не работает установка координат в поле формы
+  resetMap();
 },
 () => {
   sendDataError();
