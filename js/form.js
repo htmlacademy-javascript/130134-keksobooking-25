@@ -1,4 +1,5 @@
 import {sendData} from './api.js';
+import {setImgPreview, clearPreview} from './preview.js';
 
 
 const FILTER_DISABLE_CLASS = 'map__filters--disabled';
@@ -7,6 +8,7 @@ const filterElement = document.querySelector('.map__filters');
 const formAd = document.querySelector('.ad-form');
 const formFiltersEl = document.querySelector('.map__filters');
 
+setImgPreview();
 
 const deactivateForms = () => {
   filterElement.classList.add(FILTER_DISABLE_CLASS);
@@ -132,6 +134,7 @@ const unblockSubmitButton = () => {
 
 const formReset = () => {
   formAd.reset();
+  clearPreview();
   formFiltersEl.reset();
   pristine.reset();
 };
