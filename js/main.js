@@ -8,8 +8,6 @@ createPriceSlider();
 
 const resetBtn = document.querySelector('.ad-form__reset');
 resetBtn.addEventListener('click', (evt) => {
-  // убрал setTimeout и добавил preventDefault установка координат в поле формы заработала!
-  // т.е. похоже что сброс срабатывал дважды и очищал поле с координатами
   evt.preventDefault();
   formReset();
   resetPriceSlider();

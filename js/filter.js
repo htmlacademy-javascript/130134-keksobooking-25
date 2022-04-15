@@ -72,11 +72,7 @@ guestsFilter.addEventListener('change', () => {
 });
 
 for (const featureItem of featureFilterElements) {
-  featureItem.addEventListener('change', () => {
-    // тут возвращается функция из debounce и её нужно вызвать,
-    // я добавил вызов, но пропуск кликов не работает
-    debounce(setMarkers, RERENDER_DELAY)();
-  });
+  featureItem.addEventListener('change', debounce(() => setMarkers(), RERENDER_DELAY));
 }
 
 
