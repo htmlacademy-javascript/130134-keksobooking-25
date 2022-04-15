@@ -1,5 +1,5 @@
 import {setMarkers} from './map.js';
-import { debounce } from './util.js';
+import {debounce} from './util.js';
 
 const MARKERS_MAX_COUNT = 10;
 const filterElement = document.querySelector('.map__filters');
@@ -10,11 +10,9 @@ const guestsFilter = filterElement.querySelector('#housing-guests');
 const featureFilterElements = filterElement.querySelectorAll('.map__checkbox');
 const RERENDER_DELAY = 1500;
 
-function checkHousing(item) {
-  return housingFilter.value === 'any' ? true : (housingFilter.value === item.offer.type);
-}
+const checkHousing = (item) => housingFilter.value === 'any' ? true : (housingFilter.value === item.offer.type);
 
-function checkPrice(item) {
+const checkPrice = (item) => {
   switch (priceFilter.value) {
     case 'low':
       return item.offer.price < 10000;
@@ -25,17 +23,13 @@ function checkPrice(item) {
     default:
       return true;
   }
-}
+};
 
-function checkRooms(item) {
-  return roomsFilter.value === 'any' ? true : (roomsFilter.value === item.offer.rooms.toString());
-}
+const checkRooms = (item) => roomsFilter.value === 'any' ? true : (roomsFilter.value === item.offer.rooms.toString());
 
-function checkGuests(item) {
-  return guestsFilter.value === 'any' ? true : (guestsFilter.value === item.offer.guests.toString());
-}
+const checkGuests = (item) => guestsFilter.value === 'any' ? true : (guestsFilter.value === item.offer.guests.toString());
 
-function featuresFilter(item) {
+const featuresFilter = (item) => {
   const featuresChecked = Array.from(featureFilterElements).filter((it) => it.checked).map((it) => it.value);
   if (!featuresChecked.length) {
     return true;
@@ -45,9 +39,9 @@ function featuresFilter(item) {
   }
   const selectedFeatures = featuresChecked.filter((it) => item.offer.features.includes(it));
   return featuresChecked.length === selectedFeatures.length;
-}
+};
 
-function filter(data) {
+const filter = (data) => {
   const filterData = data.filter((item) => checkHousing(item)
   && checkPrice(item)
   && checkRooms(item)
@@ -56,7 +50,7 @@ function filter(data) {
   ).slice(0, MARKERS_MAX_COUNT);
 
   return filterData;
-}
+};
 
 housingFilter.addEventListener('change', () => {
   setMarkers();

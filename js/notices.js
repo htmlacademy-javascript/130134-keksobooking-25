@@ -27,13 +27,13 @@ const getDataError = (message) => {
 
 const sendErrorTemplate = document.querySelector('#error').content.querySelector('.error');
 const sendErrorElement = sendErrorTemplate.cloneNode(true);
-function popupErrorClose (evt) {
+const popupErrorClose = (evt) => {
   if (evt.target.classList.contains('error') || evt.target.classList.contains('error__button')) {
     sendErrorElement.remove();
     sendErrorElement.removeEventListener('click', popupErrorClose);
     document.removeEventListener('keydown', popupErrorEscClose);
   }
-}
+};
 function popupErrorEscClose (evt) {
   if (evt.code === 'Escape') {
     sendErrorElement.remove();
@@ -51,13 +51,13 @@ const sendDataError = () => {
 
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const successElement = successTemplate.cloneNode(true);
-function popupSuccessClose (evt) {
+const popupSuccessClose = (evt) => {
   if (evt.target.classList.contains('success')) {
     successElement.remove();
     successElement.removeEventListener('click', popupSuccessClose);
     document.removeEventListener('keydown', popupSuccessEscClose);
   }
-}
+};
 function popupSuccessEscClose (evt) {
   if (evt.code === 'Escape') {
     successElement.remove();

@@ -2,7 +2,7 @@ const DEFAULT_PRICE = 5000;
 const priceSlider = document.querySelector('.ad-form__slider');
 const priceInput = document.querySelector('#price');
 
-function createPriceSlider () {
+const createPriceSlider = () => {
   noUiSlider.create(priceSlider, {
     range: {
       min: 0,
@@ -12,23 +12,17 @@ function createPriceSlider () {
     step: 100,
     connect: 'lower',
     format: {
-      to: function (value) {
-        return value.toFixed(0);
-      },
-      from: function (value) {
-        return parseFloat(value);
-      },
+      to: (value) => value.toFixed(0),
+      from: (value) => parseFloat(value),
     },
   });
 
   priceSlider.noUiSlider.on('update', () => {
     priceInput.value = priceSlider.noUiSlider.get();
   });
-}
+};
 
-function resetPriceSlider () {
-  priceSlider.noUiSlider.set(DEFAULT_PRICE);
-}
+const resetPriceSlider = () => priceSlider.noUiSlider.set(DEFAULT_PRICE);
 
 
 export {createPriceSlider, resetPriceSlider};
