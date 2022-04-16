@@ -6,8 +6,8 @@ import {sendDataError, sendDataSuccess} from './notices.js';
 
 createPriceSlider();
 
-const resetBtn = document.querySelector('.ad-form__reset');
-resetBtn.addEventListener('click', (evt) => {
+const resetBtnElement = document.querySelector('.ad-form__reset');
+resetBtnElement.addEventListener('click', (evt) => {
   evt.preventDefault();
   formReset();
   resetPriceSlider();

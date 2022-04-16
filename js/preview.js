@@ -1,11 +1,11 @@
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
-const avatarInput = document.querySelector('#avatar');
-const avatarLabel = document.querySelector('.ad-form-header__drop-zone');
-const avatarPreview = document.querySelector('.ad-form-header__preview');
-const housingInput = document.querySelector('#images');
-const housingLabel = document.querySelector('.ad-form__drop-zone');
-const housingPreview = document.querySelector('.ad-form__photo');
-const fishUrl = avatarPreview.children[0].src;
+const avatarInputElement = document.querySelector('#avatar');
+const avatarLabelElement = document.querySelector('.ad-form-header__drop-zone');
+const avatarPreviewElement = document.querySelector('.ad-form-header__preview');
+const housingInputElement = document.querySelector('#images');
+const housingLabelElement = document.querySelector('.ad-form__drop-zone');
+const housingPreviewElement = document.querySelector('.ad-form__photo');
+const fishUrl = avatarPreviewElement.children[0].src;
 
 const onDrag = (evt) => {
   evt.preventDefault();
@@ -51,13 +51,13 @@ const setPreview = (input, label, imgContainer) => {
 };
 
 const setImgPreview = () => {
-  setPreview(avatarInput, avatarLabel, avatarPreview);
-  setPreview(housingInput, housingLabel, housingPreview);
+  setPreview(avatarInputElement, avatarLabelElement, avatarPreviewElement);
+  setPreview(housingInputElement, housingLabelElement, housingPreviewElement);
 };
 
 const clearPreview = () => {
-  avatarPreview.children[0].src = fishUrl;
-  housingPreview.style.backgroundImage = '';
+  avatarPreviewElement.children[0].src = fishUrl;
+  housingPreviewElement.style.backgroundImage = '';
 };
 
 

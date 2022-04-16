@@ -4,9 +4,22 @@ import {setImgPreview, clearPreview} from './preview.js';
 
 const FILTER_DISABLE_CLASS = 'map__filters--disabled';
 const FORM_DISABLE_CLASS = 'ad-form--disabled';
+const MinPrice = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000
+};
+const RoomOption = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0']
+};
 const filterElement = document.querySelector('.map__filters');
-const formAd = document.querySelector('.ad-form');
-const formFiltersEl = document.querySelector('.map__filters');
+const formAdElement = document.querySelector('.ad-form');
+const formFiltersElement = document.querySelector('.map__filters');
 
 setImgPreview();
 
@@ -17,8 +30,8 @@ const deactivateForms = () => {
     formItem.setAttribute('disabled', '');
   });
 
-  formAd.classList.add(FORM_DISABLE_CLASS);
-  const formAdItems = formAd.children;
+  formAdElement.classList.add(FORM_DISABLE_CLASS);
+  const formAdItems = formAdElement.children;
   Array.from(formAdItems).forEach((formItem) => {
     formItem.setAttribute('disabled', '');
   });
@@ -33,14 +46,14 @@ const activateFilterForm = () => {
 };
 
 const activateUserForm = () => {
-  formAd.classList.remove(FORM_DISABLE_CLASS);
-  const formAdItems = formAd.children;
+  formAdElement.classList.remove(FORM_DISABLE_CLASS);
+  const formAdItems = formAdElement.children;
   Array.from(formAdItems).forEach((formItem) => {
     formItem.removeAttribute('disabled');
   });
 };
 
-const pristine = new Pristine(formAd, {
+const pristine = new Pristine(formAdElement, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form__element--invalid',
   successClass: 'ad-form__element--valid',
@@ -50,97 +63,85 @@ const pristine = new Pristine(formAd, {
 }, false);
 
 
-const titleAd = formAd.querySelector('#title');
+const titleAdElement = formAdElement.querySelector('#title');
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
-pristine.addValidator(titleAd, validateTitle, 'Длина должна быть от 30 до 100 символов');
+pristine.addValidator(titleAdElement, validateTitle, 'Длина должна быть от 30 до 100 символов');
 
 
-const addressAd = formAd.querySelector('#address');
+const addressAdElement = formAdElement.querySelector('#address');
 const validateAddress = (value) => value.length;
-pristine.addValidator(addressAd, validateAddress, 'Установите точку на карте');
+pristine.addValidator(addressAdElement, validateAddress, 'Установите точку на карте');
 
 
-const priceAd = formAd.querySelector('#price');
-const MinPrice = {
-  'bungalow': 0,
-  'flat': 1000,
-  'hotel': 3000,
-  'house': 5000,
-  'palace': 10000
-};
+const priceAdElement = formAdElement.querySelector('#price');
+
 const validatePrice = (value) => {
-  const type = formAd.querySelector('#type');
+  const type = formAdElement.querySelector('#type');
   return value.length && parseInt(value, 10) >= MinPrice[type.value];
 };
 const getPriceErrorMessage = () => {
-  const type = formAd.querySelector('#type');
+  const type = formAdElement.querySelector('#type');
   return `Минимальная цена ${MinPrice[type.value]}`;
 };
-pristine.addValidator(priceAd, validatePrice, getPriceErrorMessage);
+pristine.addValidator(priceAdElement, validatePrice, getPriceErrorMessage);
 const onHousingTypeChange = () => {
-  priceAd.placeholder = MinPrice[this.value];
-  pristine.validate(priceAd);
+  priceAdElement.placeholder = MinPrice[this.value];
+  pristine.validate(priceAdElement);
 };
-formAd.querySelector('#type').addEventListener('change', onHousingTypeChange);
+formAdElement.querySelector('#type').addEventListener('change', onHousingTypeChange);
 
 
-const roomsCountAd = formAd.querySelector('#room_number');
-const capacityAd = formAd.querySelector('#capacity');
-const RoomOption = {
-  '1': ['1'],
-  '2': ['1', '2'],
-  '3': ['1', '2', '3'],
-  '100': ['0']
-};
+const roomsCountAdElement = formAdElement.querySelector('#room_number');
+const capacityAdElement = formAdElement.querySelector('#capacity');
 
-const validateCapacity = () => RoomOption[roomsCountAd.value].includes(capacityAd.value);
+const validateCapacity = () => RoomOption[roomsCountAdElement.value].includes(capacityAdElement.value);
 
 const getCapacityErrorMessage = () => {
-  if (roomsCountAd.value < 100) {
-    return `Максимум ${RoomOption[roomsCountAd.value].length} гост${RoomOption[roomsCountAd.value].length > 1 ? 'я' : 'ь'}`;
+  if (roomsCountAdElement.value < 100) {
+    return `Максимум ${RoomOption[roomsCountAdElement.value].length} гост${RoomOption[roomsCountAdElement.value].length > 1 ? 'я' : 'ь'}`;
   }
   return 'Не для гостей';
 };
 const getRoomsCountErrorMessage = () => {
-  if (roomsCountAd.value < 100) {
+  if (roomsCountAdElement.value < 100) {
     return 'Недостаточно комнат для гостей';
   }
 };
-pristine.addValidator(roomsCountAd, validateCapacity, getRoomsCountErrorMessage);
-pristine.addValidator(capacityAd, validateCapacity, getCapacityErrorMessage);
+pristine.addValidator(roomsCountAdElement, validateCapacity, getRoomsCountErrorMessage);
+pristine.addValidator(capacityAdElement, validateCapacity, getCapacityErrorMessage);
 
-const timeIn = formAd.querySelector('#timein');
-const timeOut = formAd.querySelector('#timeout');
-const setTime = () => {
-  if (this.id === 'timein' ) {
-    timeOut.value = timeIn.options[timeIn.selectedIndex].value;
+const timeInElement = formAdElement.querySelector('#timein');
+const timeOutElement = formAdElement.querySelector('#timeout');
+const setTime = (evt) => {
+  if (evt.target.id === 'timein' ) {
+    timeOutElement.value = timeInElement.options[timeInElement.selectedIndex].value;
   } else {
-    timeIn.value = timeOut.options[timeOut.selectedIndex].value;
+    timeInElement.value = timeOutElement.options[timeOutElement.selectedIndex].value;
   }
 };
-timeIn.addEventListener('change', setTime);
-timeOut.addEventListener('change', setTime);
+timeInElement.addEventListener('change', setTime);
+timeOutElement.addEventListener('change', setTime);
 
-const submitButton = formAd.querySelector('.ad-form__submit');
+const submitButtonElement = formAdElement.querySelector('.ad-form__submit');
 const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = 'Отправка...';
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = 'Отправка...';
 };
 
 const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = 'Опубликовать';
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = 'Опубликовать';
 };
 
 const formReset = () => {
-  formAd.reset();
+  formAdElement.reset();
   clearPreview();
-  formFiltersEl.reset();
+  formFiltersElement.reset();
   pristine.reset();
 };
 
 const setUserFormSubmit = (onSuccess, onError) => {
-  formAd.addEventListener('submit', (evt) => {
+  formAdElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {

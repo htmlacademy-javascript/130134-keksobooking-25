@@ -5,12 +5,12 @@ import {getDataError} from './notices.js';
 import {activateFilterForm, activateUserForm, deactivateForms} from './form.js';
 
 
-const mapContainer = document.querySelector('#map-canvas');
-const addressAd = document.querySelector('#address');
 const MARKER_START_COORDS = {
   lat: 35.68025,
   lng: 139.76923,
 };
+const mapContainerElement = document.querySelector('#map-canvas');
+const addressAdElement = document.querySelector('#address');
 
 const mainIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
@@ -39,23 +39,20 @@ const createMainMarker = ({lat, lng}, layer) => {
   );
 
   mainMarker.addTo(layer);
-  addressAd.value = `${lat}, ${lng}`;
+  addressAdElement.value = `${lat}, ${lng}`;
 
   mainMarker.on('moveend', (evt) => {
     const coords = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
-    addressAd.value = coords;
+    addressAdElement.value = coords;
   });
 };
 
 deactivateForms();
 
-const map = L.map(mapContainer);
+const map = L.map(mapContainerElement);
 map.on('load', () => {
   activateUserForm();
-}).setView({
-  lat: 35.68025,
-  lng: 139.76923,
-}, 13);
+}).setView(MARKER_START_COORDS, 13);
 
 
 L.tileLayer(
@@ -87,7 +84,7 @@ const createMarker = (point) => {
 };
 
 
-const setMarkers = () => {
+function setMarkers () {
   markerGroup.clearLayers();
   fetchData()
     .then((data) => {
@@ -98,15 +95,12 @@ const setMarkers = () => {
     })
     .then(activateFilterForm)
     .catch(getDataError);
-};
+}
 
 setMarkers();
 
 const resetMap = () => {
-  map.setView({
-    lat: 35.68025,
-    lng: 139.76923,
-  }, 13);
+  map.setView(MARKER_START_COORDS, 13);
   markerGroup.clearLayers();
   markerGroupMain.clearLayers();
   createMainMarker(MARKER_START_COORDS, markerGroupMain);

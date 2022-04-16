@@ -1,5 +1,3 @@
-const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-
 const generateCard = (adItem) => {
   const {title, address, price, type, rooms, guests, checkin, checkout, features, description, photos} = adItem.offer;
   const RoomTypes = {
@@ -10,6 +8,7 @@ const generateCard = (adItem) => {
     hotel: 'Отель',
   };
 
+  const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
   const cardElement = cardTemplate.cloneNode(true);
 
   cardElement.querySelector('.popup__title').textContent = title;
@@ -22,8 +21,8 @@ const generateCard = (adItem) => {
 
   if (features) {
     const featureItems = features.slice();
-    const featureList = cardElement.querySelectorAll('.popup__feature');
-    featureList.forEach((featureListItem) => {
+    const featureListElements = cardElement.querySelectorAll('.popup__feature');
+    featureListElements.forEach((featureListItem) => {
       const isAvailable = featureItems.some((featureItem) => featureListItem.classList.contains(`popup__feature--${featureItem}`));
       if (!isAvailable) {
         featureListItem.remove();
@@ -37,15 +36,17 @@ const generateCard = (adItem) => {
     cardElement.querySelector('.popup__description').classList.add('hidden');
   }
 
+  const photoListElement = cardElement.querySelector('.popup__photos');
   if (photos) {
-    const photoListElement = cardElement.querySelector('.popup__photos');
-    const photoItem = photoListElement.querySelector('.popup__photo');
-    const photosList = photos.map((photo) => {
-      const photoElement = photoItem.cloneNode(true);
+    const photoItemElement = photoListElement.querySelector('.popup__photo');
+    const listPhotos = photos.map((photo) => {
+      const photoElement = photoItemElement.cloneNode(true);
       photoElement.src = photo;
       return photoElement;
     });
-    photoItem.replaceWith(...photosList);
+    photoItemElement.replaceWith(...listPhotos);
+  } else {
+    photoListElement.remove();
   }
 
 
