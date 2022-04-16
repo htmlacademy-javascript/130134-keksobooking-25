@@ -2,18 +2,19 @@ import {setMarkers} from './map.js';
 import {debounce} from './util.js';
 
 const MARKERS_MAX_COUNT = 10;
-const filterElement = document.querySelector('.map__filters');
-const housingFilter = filterElement.querySelector('#housing-type');
-const priceFilter = filterElement.querySelector('#housing-price');
-const roomsFilter = filterElement.querySelector('#housing-rooms');
-const guestsFilter = filterElement.querySelector('#housing-guests');
-const featureFilterElements = filterElement.querySelectorAll('.map__checkbox');
 const RERENDER_DELAY = 500;
+const filterElement = document.querySelector('.map__filters');
+const housingFilterElement = filterElement.querySelector('#housing-type');
+const priceFilterElement = filterElement.querySelector('#housing-price');
+const roomsFilterElement = filterElement.querySelector('#housing-rooms');
+const guestsFilterElement = filterElement.querySelector('#housing-guests');
+const featureFilterElements = filterElement.querySelectorAll('.map__checkbox');
 
-const checkHousing = (item) => housingFilter.value === 'any' ? true : (housingFilter.value === item.offer.type);
+
+const checkHousing = (item) => housingFilterElement.value === 'any' ? true : (housingFilterElement.value === item.offer.type);
 
 const checkPrice = (item) => {
-  switch (priceFilter.value) {
+  switch (priceFilterElement.value) {
     case 'low':
       return item.offer.price < 10000;
     case 'middle':
@@ -25,45 +26,33 @@ const checkPrice = (item) => {
   }
 };
 
-const checkRooms = (item) => roomsFilter.value === 'any' ? true : (roomsFilter.value === item.offer.rooms.toString());
+const checkRooms = (item) => roomsFilterElement.value === 'any' ? true : (roomsFilterElement.value === item.offer.rooms.toString());
 
-const checkGuests = (item) => guestsFilter.value === 'any' ? true : (guestsFilter.value === item.offer.guests.toString());
+const checkGuests = (item) => guestsFilterElement.value === 'any' ? true : (guestsFilterElement.value === item.offer.guests.toString());
 
 const featuresFilter = (item) => {
-  const featuresChecked = Array.from(featureFilterElements).filter((it) => it.checked).map((it) => it.value);
-  if (!featuresChecked.length) {
+  const checkedFeatures = Array.from(featureFilterElements).filter((it) => it.checked).map((it) => it.value);
+  if (!checkedFeatures.length) {
     return true;
   }
   if (!item.offer.features) {
     return false;
   }
-  const selectedFeatures = featuresChecked.filter((it) => item.offer.features.includes(it));
-  return featuresChecked.length === selectedFeatures.length;
+  const selectedFeatures = checkedFeatures.filter((it) => item.offer.features.includes(it));
+  return checkedFeatures.length === selectedFeatures.length;
 };
 
-const filter = (data) => {
-  const filterData = data.filter((item) => checkHousing(item)
-  && checkPrice(item)
-  && checkRooms(item)
-  && checkGuests(item)
-  && featuresFilter(item)
-  ).slice(0, MARKERS_MAX_COUNT);
+const filter = (data) => data.filter((item) => checkHousing(item)
+    && checkPrice(item)
+    && checkRooms(item)
+    && checkGuests(item)
+    && featuresFilter(item)
+).slice(0, MARKERS_MAX_COUNT);
 
-  return filterData;
-};
-
-housingFilter.addEventListener('change', () => {
-  setMarkers();
-});
-priceFilter.addEventListener('change', () => {
-  setMarkers();
-});
-roomsFilter.addEventListener('change', () => {
-  setMarkers();
-});
-guestsFilter.addEventListener('change', () => {
-  setMarkers();
-});
+housingFilterElement.addEventListener('change', setMarkers);
+priceFilterElement.addEventListener('change', setMarkers);
+roomsFilterElement.addEventListener('change', setMarkers);
+guestsFilterElement.addEventListener('change', setMarkers);
 
 for (const featureItem of featureFilterElements) {
   featureItem.addEventListener('change', debounce(() => setMarkers(), RERENDER_DELAY));
