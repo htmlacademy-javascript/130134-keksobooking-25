@@ -1,11 +1,10 @@
-import {formReset} from './form.js';
-
 const mapElement = document.querySelector('.map');
 
 const getDataError = (message) => {
   const errElement = document.createElement('div');
   const titleElement = document.createElement('h3');
   const infoElement = document.createElement('p');
+  errElement.classList.add('error-fetch');
   errElement.style.position = 'absolute';
   errElement.style.top = 0;
   errElement.style.left = 0;
@@ -23,8 +22,8 @@ const getDataError = (message) => {
   errElement.appendChild(titleElement);
   errElement.appendChild(infoElement);
   mapElement.appendChild(errElement);
-
 };
+
 
 const sendErrorTemplate = document.querySelector('#error').content.querySelector('.error');
 const sendErrorElement = sendErrorTemplate.cloneNode(true);
@@ -67,11 +66,10 @@ function popupSuccessEscClose (evt) {
   }
 }
 
-const onSuccess = () => {
+const sendDataSuccess = () => {
   successElement.addEventListener('click', popupSuccessClose);
   document.addEventListener('keydown', popupSuccessEscClose);
-  formReset();
   document.body.appendChild(successElement);
 };
 
-export {getDataError, sendDataError, onSuccess};
+export {getDataError, sendDataError, sendDataSuccess};

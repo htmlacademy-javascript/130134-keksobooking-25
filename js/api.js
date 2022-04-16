@@ -1,39 +1,23 @@
-const getAdList = (onSuccess, onError) => {
-  fetch('https://25.javascript.pages.academy/keksobooking/data')
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
+const fetchData = () => fetch('https://25.javascript.pages.academy/keksobooking/data')
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
 
+    throw new Error(`Код ответа ${response.status} - ${response.statusText}`);
+  });
+
+const sendData = (body) => fetch('https://25.javascript.pages.academy/keksobooking',
+  {
+    method: 'POST',
+    body,
+  },
+)
+  .then((response) => {
+    if (!response.ok) {
       throw new Error(`Код ответа ${response.status} - ${response.statusText}`);
-    })
-    .then((data) => {
-      onSuccess(data);
-    })
-    .catch((err) => {
-      onError(err);
-    });
-};
-
-const sendData = (onSuccess, onError, body) => {
-  fetch(
-    'https://25.javascript.pages.academy/keksobooking',
-    {
-      method: 'POST',
-      body,
-    },
-  )
-    .then((response) => {
-      if (response.ok) {
-        onSuccess();
-      } else {
-        onError(response);
-      }
-    })
-    .catch(() => {
-      onError();
-    });
-};
+    }
+  });
 
 
-export {getAdList, sendData};
+export {fetchData, sendData};
