@@ -69,7 +69,7 @@ const pristine = new Pristine(formAdElement, {
 
 const titleAdElement = formAdElement.querySelector('#title');
 const validateTitle = (value) => value.length >= MIN_TITLE_LENGTH && value.length <= MAX_TITLE_LENGTH;
-pristine.addValidator(titleAdElement, validateTitle, 'Длина должна быть от 30 до 100 символов');
+pristine.addValidator(titleAdElement, validateTitle, `Длина должна быть от ${MIN_TITLE_LENGTH} до ${MAX_TITLE_LENGTH} символов`);
 
 
 const addressAdElement = formAdElement.querySelector('#address');
