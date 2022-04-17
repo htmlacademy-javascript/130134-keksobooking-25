@@ -49,7 +49,6 @@ const createMainMarker = ({lat, lng}, layer) => {
 };
 
 const map = L.map(mapContainerElement);
-// map.setView(MARKER_START_COORDS, MAP_ZOOM);
 
 
 L.tileLayer(
