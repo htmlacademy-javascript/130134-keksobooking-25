@@ -2,9 +2,10 @@ import {generateCard} from './generate-card.js';
 import {fetchData} from './api.js';
 import {filter} from './filter.js';
 import {getDataError} from './notices.js';
-import {activateFilterForm, activateUserForm, deactivateForms} from './form.js';
+import {activateFilterForm, activateUserForm} from './form.js';
 
 
+const MAP_ZOOM = 13;
 const MARKER_START_COORDS = {
   lat: 35.68025,
   lng: 139.76923,
@@ -20,8 +21,8 @@ const mainIcon = L.icon({
 
 const adIcon = L.icon({
   iconUrl: '../img/pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
 });
 
 
@@ -41,18 +42,14 @@ const createMainMarker = ({lat, lng}, layer) => {
   mainMarker.addTo(layer);
   addressAdElement.value = `${lat}, ${lng}`;
 
-  mainMarker.on('moveend', (evt) => {
+  mainMarker.on('move', (evt) => {
     const coords = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
     addressAdElement.value = coords;
   });
 };
 
-deactivateForms();
-
 const map = L.map(mapContainerElement);
-map.on('load', () => {
-  activateUserForm();
-}).setView(MARKER_START_COORDS, 13);
+// map.setView(MARKER_START_COORDS, MAP_ZOOM);
 
 
 L.tileLayer(
@@ -64,8 +61,6 @@ L.tileLayer(
 
 const markerGroup = L.layerGroup().addTo(map);
 const markerGroupMain = L.layerGroup().addTo(map);
-
-createMainMarker(MARKER_START_COORDS, markerGroupMain);
 
 const createMarker = (point) => {
   const {lat, lng} = point.location;
@@ -83,6 +78,12 @@ const createMarker = (point) => {
   adMmarker.bindPopup(generateCard(point));
 };
 
+map.on('load', () => {
+  createMainMarker(MARKER_START_COORDS, markerGroupMain);
+  setMarkers();
+  activateUserForm();
+}).setView(MARKER_START_COORDS, MAP_ZOOM);
+
 
 function setMarkers () {
   markerGroup.clearLayers();
@@ -97,10 +98,8 @@ function setMarkers () {
     .catch(getDataError);
 }
 
-setMarkers();
-
 const resetMap = () => {
-  map.setView(MARKER_START_COORDS, 13);
+  map.setView(MARKER_START_COORDS, MAP_ZOOM);
   markerGroup.clearLayers();
   markerGroupMain.clearLayers();
   createMainMarker(MARKER_START_COORDS, markerGroupMain);

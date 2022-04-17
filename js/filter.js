@@ -11,7 +11,7 @@ const guestsFilterElement = filterElement.querySelector('#housing-guests');
 const featureFilterElements = filterElement.querySelectorAll('.map__checkbox');
 
 
-const checkHousing = (item) => housingFilterElement.value === 'any' ? true : (housingFilterElement.value === item.offer.type);
+const checkHousing = (item) => housingFilterElement.value === 'any' || (housingFilterElement.value === item.offer.type);
 
 const checkPrice = (item) => {
   switch (priceFilterElement.value) {
@@ -26,9 +26,9 @@ const checkPrice = (item) => {
   }
 };
 
-const checkRooms = (item) => roomsFilterElement.value === 'any' ? true : (roomsFilterElement.value === item.offer.rooms.toString());
+const checkRooms = (item) => roomsFilterElement.value === 'any' || (roomsFilterElement.value === item.offer.rooms.toString());
 
-const checkGuests = (item) => guestsFilterElement.value === 'any' ? true : (guestsFilterElement.value === item.offer.guests.toString());
+const checkGuests = (item) => guestsFilterElement.value === 'any' || (guestsFilterElement.value === item.offer.guests.toString());
 
 const featuresFilter = (item) => {
   const checkedFeatures = Array.from(featureFilterElements).filter((it) => it.checked).map((it) => it.value);
@@ -49,14 +49,7 @@ const filter = (data) => data.filter((item) => checkHousing(item)
     && featuresFilter(item)
 ).slice(0, MARKERS_MAX_COUNT);
 
-housingFilterElement.addEventListener('change', setMarkers);
-priceFilterElement.addEventListener('change', setMarkers);
-roomsFilterElement.addEventListener('change', setMarkers);
-guestsFilterElement.addEventListener('change', setMarkers);
-
-for (const featureItem of featureFilterElements) {
-  featureItem.addEventListener('change', debounce(() => setMarkers(), RERENDER_DELAY));
-}
+filterElement.addEventListener('change', debounce(() => setMarkers(), RERENDER_DELAY));
 
 
 export {filter};
