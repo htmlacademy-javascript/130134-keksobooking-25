@@ -1,14 +1,15 @@
+const RoomTypes = {
+  flat: 'Квартира',
+  bungalow: 'Бунгало',
+  house: 'Дом',
+  palace: 'Дворец',
+  hotel: 'Отель',
+};
+const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
+
 const generateCard = (adItem) => {
   const {title, address, price, type, rooms, guests, checkin, checkout, features, description, photos} = adItem.offer;
-  const RoomTypes = {
-    flat: 'Квартира',
-    bungalow: 'Бунгало',
-    house: 'Дом',
-    palace: 'Дворец',
-    hotel: 'Отель',
-  };
 
-  const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
   const cardElement = cardTemplate.cloneNode(true);
 
   cardElement.querySelector('.popup__title').textContent = title;

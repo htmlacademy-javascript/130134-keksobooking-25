@@ -7,7 +7,7 @@ const housingLabelElement = document.querySelector('.ad-form__drop-zone');
 const housingPreviewElement = document.querySelector('.ad-form__photo');
 const fishUrl = avatarPreviewElement.children[0].src;
 
-const onDrag = (evt) => {
+const markerDragHandler = (evt) => {
   evt.preventDefault();
   evt.target.style.border = 'dashed 3px #ff5722';
 };
@@ -31,8 +31,8 @@ const setPreview = (input, label, imgContainer) => {
     }
   });
 
-  label.addEventListener('dragenter', onDrag);
-  label.addEventListener('dragover', onDrag);
+  label.addEventListener('dragenter', markerDragHandler);
+  label.addEventListener('dragover', markerDragHandler);
   label.addEventListener('dragleave', (evt) => {
     evt.preventDefault();
     evt.target.style.border = '';

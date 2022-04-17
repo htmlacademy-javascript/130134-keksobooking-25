@@ -1,4 +1,7 @@
-const fetchData = () => fetch('https://25.javascript.pages.academy/keksobooking/data')
+const FETCH_ADDRESS = 'https://25.javascript.pages.academy/keksobooking/data';
+const SEND_ADDRESS = 'https://25.javascript.pages.academy/keksobooking';
+
+const fetchData = () => fetch(FETCH_ADDRESS)
   .then((response) => {
     if (response.ok) {
       return response.json();
@@ -7,7 +10,7 @@ const fetchData = () => fetch('https://25.javascript.pages.academy/keksobooking/
     throw new Error(`Код ответа ${response.status} - ${response.statusText}`);
   });
 
-const sendData = (body) => fetch('https://25.javascript.pages.academy/keksobooking',
+const sendData = (body) => fetch(SEND_ADDRESS,
   {
     method: 'POST',
     body,

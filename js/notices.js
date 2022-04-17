@@ -6,9 +6,9 @@ const getDataError = (message) => {
   const infoElement = document.createElement('p');
   errElement.classList.add('error-fetch');
   errElement.style.position = 'absolute';
-  errElement.style.top = 0;
-  errElement.style.left = 0;
-  errElement.style.zIndex = 1000;
+  errElement.style.top = '0';
+  errElement.style.left = '0';
+  errElement.style.zIndex = '1000';
   errElement.style.backgroundColor = '#ff6d49';
   errElement.style.padding = '10px';
   errElement.style.width = '100%';
@@ -27,48 +27,56 @@ const getDataError = (message) => {
 
 const sendErrorTemplate = document.querySelector('#error').content.querySelector('.error');
 const sendErrorElement = sendErrorTemplate.cloneNode(true);
-const popupErrorClose = (evt) => {
-  if (evt.target.classList.contains('error') || evt.target.classList.contains('error__button')) {
-    sendErrorElement.remove();
-    sendErrorElement.removeEventListener('click', popupErrorClose);
-    document.removeEventListener('keydown', popupErrorEscClose);
-  }
+
+const popupErrorClose = () => {
+  sendErrorElement.remove();
+  sendErrorElement.removeEventListener('click', popupErrorClickHandler);
+  document.removeEventListener('keydown', popupErrorEscHandler);
 };
-function popupErrorEscClose (evt) {
+
+function popupErrorClickHandler (evt) {
+  if (evt.target.classList.contains('error') || evt.target.classList.contains('error__button')) {
+    popupErrorClose();
+  }
+}
+
+function popupErrorEscHandler (evt) {
   if (evt.code === 'Escape') {
-    sendErrorElement.remove();
-    sendErrorElement.removeEventListener('click', popupErrorClose);
-    document.removeEventListener('keydown', popupErrorEscClose);
+    popupErrorClose();
   }
 }
 
 const sendDataError = () => {
-  sendErrorElement.addEventListener('click', popupErrorClose);
-  document.addEventListener('keydown', popupErrorEscClose);
+  sendErrorElement.addEventListener('click', popupErrorClickHandler);
+  document.addEventListener('keydown', popupErrorEscHandler);
   document.body.appendChild(sendErrorElement);
 };
 
 
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const successElement = successTemplate.cloneNode(true);
-const popupSuccessClose = (evt) => {
-  if (evt.target.classList.contains('success')) {
-    successElement.remove();
-    successElement.removeEventListener('click', popupSuccessClose);
-    document.removeEventListener('keydown', popupSuccessEscClose);
-  }
+
+const popupSuccessClose = () => {
+  successElement.remove();
+  successElement.removeEventListener('click', popupSuccessClickHandler);
+  document.removeEventListener('keydown', popupSuccessEscHandler);
 };
-function popupSuccessEscClose (evt) {
+
+function popupSuccessClickHandler (evt) {
+  if (evt.target.classList.contains('success')) {
+    popupSuccessClose();
+  }
+}
+
+function popupSuccessEscHandler (evt) {
   if (evt.code === 'Escape') {
-    successElement.remove();
-    successElement.removeEventListener('click', popupSuccessClose);
-    document.removeEventListener('keydown', popupSuccessEscClose);
+    popupSuccessClose();
   }
 }
 
 const sendDataSuccess = () => {
-  successElement.addEventListener('click', popupSuccessClose);
-  document.addEventListener('keydown', popupSuccessEscClose);
+  successElement.addEventListener('click', popupSuccessClickHandler);
+  document.addEventListener('keydown', popupSuccessEscHandler);
   document.body.appendChild(successElement);
 };
 
